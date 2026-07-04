@@ -27,6 +27,36 @@
         right: 10px;
         top:10px;
     }
+    .being{
+        color:rgb(141, 64, 241);
+        border:8px;
+        font-weight: bold;
+    }
+
+    .infinity{
+        color:black;
+        font-weight: bold;
+       
+    }
+
+    input[type="search"]{
+    width: 350px;
+    padding: 12px;
+    border: 1px solid gray;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: bold;
+    outline: none;
+    }
+
+    #suggestion-box{
+    width: 350px;
+    height: 40px;
+    margin: 10px auto;
+    border: 1px solid gray;
+    border-radius: 10px;
+}
+
 </style>
 
 </head>
@@ -37,10 +67,17 @@
 <div class="status">online | &#9202; -ms</div>
 
 <div id="body">
-    <h1 style="color:blue;">BeingInfinity</h1>
-    <p>One million phrases. Four Algorithms. Prefix Based Auto Suggest</p>
+    <h1>
+    <span class="being">Being</span><span class="infinity">Infinity</span>
+</h1>
+    <p style="color:grey;">One million phrases. Four Algorithms. Prefix Based Auto Suggest</p>
     <input type="search" placeholder="&#128269; Start typing to search">
+    
 </div>
+<div id="suggestion-box"></div>
+
+<div>
+
 
 </body>
 </html>

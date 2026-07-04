@@ -2,12 +2,13 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Document</title>
+<title>BeingInfinity</title>
 
 <style>
     body{
         margin:0;
         text-align:center;
+        font-family:Arial, sans-serif;
     }
 
     #body{
@@ -15,48 +16,60 @@
     }
 
     .gear{
-        position: absolute;
-        margin:20px;
-        left: 10px;
-        top:10px;
+        position:absolute;
+        top:20px;
+        left:20px;
     }
 
     .status{
-        position: absolute;
-        margin:20px;
-        right: 10px;
-        top:10px;
+        position:absolute;
+        top:20px;
+        right:20px;
     }
+
     .being{
-        color:rgb(141, 64, 241);
-        border:8px;
-        font-weight: bold;
+        color:rgb(141,64,241);
+        font-weight:bold;
     }
 
     .infinity{
         color:black;
-        font-weight: bold;
-       
+        font-weight:bold;
     }
 
     input[type="search"]{
-    width: 350px;
-    padding: 12px;
-    border: 1px solid gray;
-    border-radius: 25px;
-    font-size: 16px;
-    font-weight: bold;
-    outline: none;
+        width:350px;
+        padding:12px;
+        border:1px solid gray;
+        border-radius:25px;
+        font-size:16px;
+        font-weight:bold;
+        outline:none;
     }
 
     #suggestion-box{
-    width: 350px;
-    height: 40px;
-    margin: 10px auto;
-    border: 1px solid gray;
-    border-radius: 10px;
-}
+        width:350px;
+        margin:10px auto;
+        border:1px solid gray;
+        border-radius:10px;
+        background:white;
+        text-align:left;
+        display:none;
+    }
 
+    .suggestion{
+        padding:10px;
+        border-bottom:1px solid #ddd;
+        cursor:pointer;
+    }
+
+    .suggestion:last-child{
+        border-bottom:none;
+    }
+
+    .suggestion:hover{
+        background:#f2f2f2;
+    }
 </style>
 
 </head>
@@ -64,20 +77,106 @@
 
 <div class="gear">&#9881;</div>
 
-<div class="status">online | &#9202; -ms</div>
+<div class="status">
+    &#9679; online &nbsp; | &nbsp; &#9202; -ms
+</div>
 
 <div id="body">
+
     <h1>
-    <span class="being">Being</span><span class="infinity">Infinity</span>
-</h1>
-    <p style="color:grey;">One million phrases. Four Algorithms. Prefix Based Auto Suggest</p>
-    <input type="search" placeholder="&#128269; Start typing to search">
-    
+        <span class="being">Being</span><span class="infinity">Infinity</span>
+    </h1>
+
+    <p style="color:grey;">
+        One million phrases. Four Algorithms. Prefix Based Auto Suggest
+    </p>
+
+    <input
+        id="searchbox"
+        type="search"
+        placeholder="&#128269; Start typing to search">
+
+    <div id="suggestion-box">
+        <!-- Suggestions will appear here -->
+    </div>
+
 </div>
-<div id="suggestion-box"></div>
 
-<div>
+<script>
 
+var searchbox = document.getElementById("searchbox");
+var suggestionBox = document.getElementById("suggestion-box");
+
+searchbox.addEventListener("input", function(){
+
+    // 1. Get user input
+    var userinput = searchbox.value;
+
+    // Hide suggestion box if input is empty
+    if(userinput.trim() === ""){
+        suggestionBox.style.display = "none";
+        suggestionBox.innerHTML = "";
+    }
+    else{
+
+        suggestionBox.style.display = "block";
+
+        // 2. API URL
+        var url1 = "https://autosuggest-backend.onrender.com/api/autosuggest?q=";
+        var url3 = "&algorithm=brute&limit=10&weighted=false";
+
+        var url = url1 + encodeURIComponent(userinput) + url3;
+
+        // 3. Fetch suggestions
+        fetch(url)
+        .then(function(response){
+            return response.json();
+        })
+        .then(function(data){
+
+            console.log(data);
+
+            var resultsArray = data.results || [];
+            var htmlResults = "";
+
+            function formatSuggestion(item){
+
+                if(item == null)
+                    return "";
+
+                if(typeof item === "string")
+                    return item;
+
+                if(typeof item === "object"){
+                    return item.suggestion ||
+                           item.value ||
+                           item.text ||
+                           item.label ||
+                           item.name ||
+                           JSON.stringify(item);
+                }
+
+                return String(item);
+            }
+
+            for(var i=0;i<resultsArray.length;i++){
+
+                htmlResults +=
+                '<div class="suggestion">' +
+                formatSuggestion(resultsArray[i]) +
+                '</div>';
+
+            }
+
+            suggestionBox.innerHTML = htmlResults;
+
+        });
+
+    }
+
+});
+
+</script>
 
 </body>
 </html>

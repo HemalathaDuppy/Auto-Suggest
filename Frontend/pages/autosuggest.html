@@ -1,11 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+<meta charset="UTF-8">
+<title>Document</title>
+
+<style>
+    body{
+        margin:0;
+        text-align:center;
+    }
+
+    #body{
+        margin-top:100px;
+    }
+
+    .gear{
+        position: absolute;
+        margin:20px;
+        left: 10px;
+        top:10px;
+    }
+
+    .status{
+        position: absolute;
+        margin:20px;
+        right: 10px;
+        top:10px;
+    }
+</style>
+
 </head>
 <body>
-    <h1>Auto Suggest</h1>
+
+<div class="gear">&#9881;</div>
+
+<div class="status">online | &#9202; -ms</div>
+
+<div id="body">
+    <h1 style="color:blue;">BeingInfinity</h1>
+    <p>One million phrases. Four Algorithms. Prefix Based Auto Suggest</p>
+    <input type="search" placeholder="&#128269; Start typing to search">
+</div>
+
 </body>
 </html>
